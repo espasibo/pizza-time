@@ -14,7 +14,7 @@ class Product extends Model
 
     protected $appends = ['img'];
 
-    public function type()
+    public function type_obj()
     {
         return $this->belongsTo('App\Models\Type', 'type', 'slug');
     }

@@ -33,7 +33,7 @@ class ProductsSeed extends Seeder
                 ],
                 [
                     'name' => 'Spinach and Cheese',
-                    'description' => "Sour and sweet, just right for and evening outdoors. Chopped spinach, onions and ricotta all mixed together.",
+                    'description' => "Sour and sweet, just right for an evening outdoors. Chopped spinach, onions and ricotta all mixed together.",
                     'prices' => [
                         'dollar' => 12,
                         'euro' => 14.5
@@ -41,7 +41,7 @@ class ProductsSeed extends Seeder
                 ],
                 [
                     'name' => 'Broccoli and Corn',
-                    'description' => 'Light on the calories and high on fiber. Broccoli and corn slightly seasoned with black pepper and balsamico.',
+                    'description' => 'Light on calories and high on fiber. Broccoli and corn slightly seasoned with black pepper and balsamico.',
                     'prices' => [
                         'dollar' => 12,
                         'euro' => 14.5

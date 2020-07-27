@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePrices extends Migration
+class UpdateOrders extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreatePrices extends Migration
      */
     public function up()
     {
-        Schema::create('prices', function (Blueprint $table) {
-            $table->id();
-            $table->float('value', 8, 2);
-            $table->unsignedBigInteger('product_id');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->float('total', 8, 2);
             $table->string('currency');
+            $table->timestamps();
 
             $table->index('currency');
 
-            $table->foreign('product_id')->references('id')->on('products')
-                ->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('currency')->references('slug')->on('currencies')
                 ->onUpdate('cascade')->onDelete('cascade');
         });
@@ -35,6 +32,11 @@ class CreatePrices extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prices');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn('total');
+            $table->dropColumn('currency');
+            $table->dropColumn('updated_at');
+            $table->dropColumn('created_at');
+        });
     }
 }

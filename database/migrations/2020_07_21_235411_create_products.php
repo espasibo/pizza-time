@@ -19,6 +19,8 @@ class CreateProducts extends Migration
             $table->longText('description');
             $table->string('type');
 
+            $table->index('type');
+
             $table->foreign('type')->references('slug')->on('types');
         });
     }

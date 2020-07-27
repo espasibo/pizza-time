@@ -4,17 +4,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use \Staudenmeir\EloquentJsonRelations\HasJsonRelationships;
+use App\Models\Product;
 
 class Order extends Model
 {
-    use HasJsonRelationships;
 
-    public $timestamps = false;
+    protected $fillable = ['products', 'address', 'user_id', 'total', 'currency'];
 
-    protected $fillable = ['products', 'address', 'user_id'];
-
-    protected $appends = ['total'];
+    protected $appends = ['products_full'];
 
     protected $casts = [
         'products' => 'json'
@@ -25,23 +22,21 @@ class Order extends Model
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
-    public function productsFull()
+    public function currencyObj()
     {
-        return $this->hasManyJson('App\Models\Product', 'products', 'id');
+        return $this->hasOne('App\Models\Currency', 'slug', 'currency');
     }
 
-    public function getTotalAttribute()
-    {
-        $total = [];
-        foreach ($this->productsFull as $product) {
-            foreach ($product->prices as $price) {
-                if (empty($total[$price->currency->slug])) {
-                    $total[$price->currency->slug] = $price->value;
-                } else {
-                    $total[$price->currency->slug] += $price->value;
-                }
-            }
+    public function getProductsFullAttribute() {
+
+        $cur = $this->currency;
+        $prods = Product::with(['prices' => function ($q) use ($cur) {
+            $q->where('currency', '=', $cur);
+        }])->whereIn('id', $this->products)->get()->toArray();
+        $quant = array_count_values($this->products);
+        foreach ($prods as $i=>$prod) {
+            $prods[$i]['quantity'] = $quant[$prod['id']];
         }
-        return $total;
+        return $prods;
     }
 }

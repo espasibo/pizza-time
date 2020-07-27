@@ -26,6 +26,6 @@ class Product extends Model
 
     public function getImgAttribute()
     {
-        return '/images/' . $this->name . '.png';
+        return '/img/' . str_replace(' ', '_', $this->name) . '.png';
     }
 }

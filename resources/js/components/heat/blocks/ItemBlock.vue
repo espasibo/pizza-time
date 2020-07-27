@@ -1,5 +1,6 @@
 <template>
     <div class="menuitem">
+        <img :src="item.img" class="image">
         <h4>{{ item.name }}</h4>
         <p class="descr">{{ item.description }}</p>
         <span v-if="cur">{{ getPrice() }} {{ cur.symbol }}</span>
@@ -59,4 +60,9 @@
     .descr {
         padding-top: 10px;
     }
+    .image {
+        padding-bottom: 20px;
+        height: 200px;
+    }
+
 </style>
